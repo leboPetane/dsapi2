@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 var dotenv = require("dotenv");
     dotenv.config()
 
@@ -16,20 +17,20 @@ router.route('/')
 .get(async (req, res, next) => {
   await client.connect();
   const database    = client.db("driving_school");
-  const collection  = database.collection("user");
-  const usersCursor = await collection.find({});
-  const users       = await usersCursor.toArray();
+  const collection  = database.collection("instructor");
+  const instructorsCursor = await collection.find({});
+  const instructors       = await instructorsCursor.toArray();
   
   res.statusCode = 200;
-  res.json(users);
+  res.json(instructors);
   res.end();
   client.close();
 })
 .post(async (req, res, next) => {
     await client.connect();
     const database    = client.db("driving_school");
-    const collection  = database.collection("user");
-    const usersCursor = await collection.insertOne(req.body);
+    const collection  = database.collection("instructor");
+    const instructorsCursor = await collection.insertOne(req.body);
   
     res.statusCode = 200;
     res.end();
@@ -46,52 +47,41 @@ router.route('/:id')
 .get(async (req, res, next) => {
     await client.connect();
     const database    = client.db("driving_school");
-    const collection  = database.collection("user");
-    const usersCursor = await collection.find({});
-    const users       = await usersCursor.toArray();
+    const collection  = database.collection("instructor");
+    const instructorsCursor = await collection.find({});
+    const instructors       = await instructorsCursor.toArray();
 
-    const user        = users.filter(userObj => userObj._id == req.params.id)[0];
+    const instructor        = instructors.filter(instructorObj => instructorObj._id == req.params.id)[0];
         
     res.statusCode = 200;
-    res.json(user);
+    res.json(instructor);
     client.close();
    
 })
 .put(async (req, res, next) => {
     await client.connect();
     const database    = client.db("driving_school");
-    const collection  = database.collection("user");
+    const collection  = database.collection("instructor");
 
-    var   usersCursor = await collection.find({});
-    var   users       = await usersCursor.toArray();
-    var   user        = users.filter(userObj => userObj._id == req.params.id)
-          usersCursor = await collection.updateOne(user[0],{$set:req.body});
+    var   instructorsCursor = await collection.find({});
+    var   instructors       = await instructorsCursor.toArray();
+    var   instructor        = instructors.filter(instructorObj => instructorObj._id == req.params.id)
+          instructorsCursor = await collection.updateOne(instructor[0],{$set:req.body});
 
           res.statusCode = 200;
           res.end("Success");
           client.close();
-
-    /*
-    if(usersCursor.modifiedCount == 0){
-        res.statusCode = 500;
-        res.end("Could not update :( ");
-        client.close();
-    }else{
-        res.statusCode = 200;
-        res.end("Success");
-        client.close();
-    } */
     
 })
 .delete(async (req, res, next) => {
     await client.connect();
     const database    = client.db("driving_school");
-    const collection  = database.collection("user");
-    var   usersCursor = await collection.find({});
-    const users       = await usersCursor.toArray();
-    const user        = users.filter(userObj => userObj._id == req.params.id)[0];
+    const collection  = database.collection("instructor");
+    var   instructorsCursor = await collection.find({});
+    const instructors       = await instructorsCursor.toArray();
+    const instructor        = instructors.filter(instructorObj => instructorObj._id == req.params.id)[0];
     try{
-        const usersCursor = await collection.deleteOne(user);
+        const instructorsCursor = await collection.deleteOne(instructor);
         res.statusCode = 200;
         res.end();
     }catch(e){

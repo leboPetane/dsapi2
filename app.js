@@ -1,11 +1,17 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
+var createError  = require('http-errors');
+var express      = require('express');
+var path         = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var logger       = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter      = require('./routes/index');
+var usersRouter      = require('./routes/users');
+var usersRouter      = require('./routes/users');
+var learnerRouter    = require('./routes/learners')
+var instructorRouter = require('./routes/instructors');
+var carRouter        = require('./routes/cars');
+var lessonRouter     = require('./routes/lessons');
+
 
 var app = express();
 
@@ -19,8 +25,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/',                indexRouter);
+app.use('/api/users',       usersRouter);
+app.use('/api/instructors', instructorRouter);
+app.use('/api/lessons',     lessonRouter);
+app.use('/api/learners',    learnerRouter);
+app.use('/api/cars',        carRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
