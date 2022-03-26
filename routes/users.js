@@ -54,6 +54,7 @@ router.route('/:id')
 
     const user        = users.filter(userObj => userObj._id == req.params.id)[0];
         
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.statusCode = 200;
     res.json(user);
     client.close();
@@ -69,7 +70,8 @@ router.route('/:id')
     var   user        = users.filter(userObj => userObj._id == req.params.id)
           usersCursor = await collection.updateOne(user[0],{$set:req.body});
 
-          res.statusCode = 200;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.statusCode = 200;
           res.end("Success");
           client.close();
 
@@ -94,11 +96,13 @@ router.route('/:id')
     const user        = users.filter(userObj => userObj._id == req.params.id)[0];
     try{
         const usersCursor = await collection.deleteOne(user);
-        res.statusCode = 200;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.statusCode = 200;
         res.end();
     }catch(e){
         console.log(e);
-        res.statusCode = 500;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.statusCode = 500;
         res.end("Could not delete");
     }
     client.close();
