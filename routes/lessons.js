@@ -10,6 +10,7 @@ router.route('/')
 .all((req, res, next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Accept', 'application/json');
     next();
 })
@@ -41,6 +42,7 @@ router.route('/:id')
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Accept', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     next();
 })
 .get(async (req, res, next) => {
